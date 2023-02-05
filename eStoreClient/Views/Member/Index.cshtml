@@ -1,0 +1,77 @@
+﻿@model IEnumerable<BusinessObject.Member>
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    ViewData["Title"] = "Index";
+    var session = httpContextAccessor.HttpContext.Session;
+}
+
+
+@if (@session.GetString("Role") == "Admin")
+{
+    <h1>Index</h1>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+}
+else
+{
+    <h1>Profile</h1>
+}
+<table class="table">
+    <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th></th>
+            </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (@session.GetString("User") == item.Email.ToString())
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.MemberId" class="btn btn-warning">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.MemberId" class="btn btn-info">Details</a>
+                    </td>
+                </tr>
+            }
+            else if (@session.GetString("Role") == "Admin")
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.MemberId" class="btn btn-info">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.MemberId" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

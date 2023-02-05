@@ -1,0 +1,133 @@
+﻿@using BusinessObject
+@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Index";
+    var OrderList = ViewBag?.listOrders;
+    var OrderDetailList = ViewBag?.listOrderDetail;
+    var Total = ViewBag?.total;
+}
+
+<h1>Statistic</h1>
+
+<div>
+    <form method="get" asp-action="Index" autocomplete="off" asp-controller="Statistic">
+        <div>
+            <div class="m-3">
+                <input type="date" name="startDate" id="weekPicker" autocomplete="off" class="form-control" />
+            </div>
+            <div class="m-3">
+                <input type="date" name="endDate" id="weekPicker" autocomplete="off" class="form-control" />
+            </div>
+        </div>
+        <input type="submit" value="Enter" class="btn btn-primary" /> |
+        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-primary">Back to Home</a>
+    </form>
+</div>
+@if (@Total != null)
+{
+    <hr />
+    <h2>Total: $@Total </h2>
+    <hr />
+}
+@if (OrderList != null)
+{
+    <h4>Order</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <strong>Order Id</strong>
+                </th>
+                <th>
+                    <strong>Order Date</strong>
+                </th>
+                <th>
+                    <strong>Required Date</strong>
+                </th>
+                <th>
+                    <strong>Shipped Date</strong>
+                </th>
+                <th>
+                    <strong>Freight</strong>
+                </th>
+                <th>
+                    <strong>Member Id</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in OrderList)
+            {
+                <tr>
+                    <td>
+                        <p>@item?.OrderId</p>
+                    </td>
+                    <td>
+                        <p>@item?.OrderDate</p>
+                    </td>
+                    <td>
+                        <p>@item?.RequiredDate</p>
+                    </td>
+                    <td>
+                        <p>@item?.ShippedDate</p>
+                    </td>
+                    <td>
+                        <p>@item?.Freight</p>
+                    </td>
+                    <td>
+                        <p>@item?.MemberId</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+@if (OrderDetailList != null)
+{
+    <h4>Order Detail</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <strong>Order Id</strong>
+                </th>
+                <th>
+                    <strong>Product Id</strong>
+                </th>
+                <th>
+                    <strong>Unit Price</strong>
+                </th>
+                <th>
+                    <strong>Quantity</strong>
+                </th>
+                <th>
+                    <strong>Discount</strong>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in OrderDetailList)
+            {
+                <tr>
+                    <td>
+                        <p>@item?.OrderId</p>
+                    </td>
+                    <td>
+                        <p>@item?.ProductId</p>
+                    </td>
+                    <td>
+                        <p>@item?.UnitPrice</p>
+                    </td>
+                    <td>
+                        <p>@item?.Quantity</p>
+                    </td>
+                    <td>
+                        <p>@item?.Discount</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
